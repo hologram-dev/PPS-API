@@ -50,7 +50,7 @@ func (eu *Entity1UseCase) Update(c context.Context, updatedEntity1 domain.Entity
 	return nil
 }
 
-func (eu *Entity1UseCase) Delete(c context.Context, id int) error {
+func (eu *Entity1UseCase) Delete(c context.Context, id uuid.UUID) error {
 	db := bootstrap.DB
 	err := db.Where("id = ?", id).Delete(&domain.Entity1{})
 	if err.Error != nil {

@@ -14,7 +14,6 @@ type Entity1 struct {
 	UpdatedAt time.Time      `json:"updated_at"`
 	DeletedAt gorm.DeletedAt `json:"deleted_at"`
 	Name      string         `json:"name"`
-	
 }
 
 type Entity1Repository interface {
@@ -22,5 +21,5 @@ type Entity1Repository interface {
 	Fetch(c context.Context) ([]Entity1, error)
 	FetchById(c context.Context, id uuid.UUID) (Entity1, error)
 	Update(c context.Context, updatedEntity1 Entity1) error
-	Delete(c context.Context, id int) error
+	Delete(c context.Context, id uuid.UUID) error
 }
