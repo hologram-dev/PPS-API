@@ -5,6 +5,8 @@ import (
 
 	"gorm-template/bootstrap"
 	"gorm-template/domain"
+
+	"github.com/google/uuid"
 )
 
 type Entity1UseCase struct{}
@@ -28,7 +30,7 @@ func (eu *Entity1UseCase) Fetch(c context.Context) ([]domain.Entity1, error) {
 	return entity, nil
 }
 
-func (eu *Entity1UseCase) FetchById(c context.Context, id int) (domain.Entity1, error) {
+func (eu *Entity1UseCase) FetchById(c context.Context, id uuid.UUID) (domain.Entity1, error) {
 	db := bootstrap.DB
 	entity1 := domain.Entity1{}
 	err := db.Where("id = ?", id).First(&entity1)
