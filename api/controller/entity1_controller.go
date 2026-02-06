@@ -52,7 +52,9 @@ func (te *Entity1Controller) Fetch(c *gin.Context) {
 }
 
 func (te *Entity1Controller) FetchById(c *gin.Context) {
-	id, err := strconv.Atoi(c.Param("id"))
+	idParam := c.Param("id")
+
+	id, err := uuid.Parse(idParam)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, domain.ErrorResponse{Message: err.Error()})
 		return
