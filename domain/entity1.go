@@ -10,10 +10,11 @@ import (
 
 type Entity1 struct {
 	ID        uuid.UUID      `json:"id" gorm:"type:uuid;default:uuid_generate_v4()"`
-	Name      string         `json:"name"`
 	CreatedAt time.Time      `json:"created_at"`
 	UpdatedAt time.Time      `json:"updated_at"`
 	DeletedAt gorm.DeletedAt `json:"deleted_at"`
+	Name      string         `json:"name"`
+	
 }
 
 type Entity1Repository interface {

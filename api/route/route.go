@@ -8,12 +8,9 @@ import (
 )
 
 func Setup(env *bootstrap.Env, timeout time.Duration, gin *gin.Engine) {
-	//Todas las API Publicas
+
 	publicRouter := gin.Group("/api")
 
-	//Middleware para verificar AccessToken
-	//protectedRouter := gin.Group("/api")
 
-	//Todas las API Privadas
-	NewEntityRouter(env, timeout, publicRouter)
+	EmpresaRouter(env, timeout, publicRouter)
 }
