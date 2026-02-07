@@ -2,6 +2,7 @@ package usecase
 
 import (
 	"context"
+
 	"gorm-template/bootstrap"
 	"gorm-template/domain"
 
@@ -41,10 +42,9 @@ func (eu *EstudianteUseCase) FetchById(c context.Context, id uuid.UUID) (domain.
 
 func (eu *EstudianteUseCase) Update(c context.Context, updatedEstudiante domain.Estudiante) error {
 	db := bootstrap.DB
-	err := db.Model(&updatedEstudiante).
+	if err := db.Model(&updatedEstudiante).
 		Omit("deleted_at", "created_at").
-		Updates(updatedEstudiante).Error
-	if err.Error != nil {
+		Updates(updatedEstudiante).Error; err != nil {
 		return err
 	}
 	return nil
