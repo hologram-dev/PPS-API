@@ -13,7 +13,7 @@ func PostulacionEstadoRouter(env *bootstrap.Env, timeout time.Duration, group *g
 	ec := &controller.PostulacionEstadoController{
 		PostulacionEstadoRepository: &usecase.PostulacionEstadoUseCase{},
 	}
-	PostulacionEstadoRouter := group.Group("/postulacion_estado")
+	PostulacionEstadoRouter := group.Group("/postulacion-estado")
 	PostulacionEstadoRouter.POST("/", ec.Create)
 	PostulacionEstadoRouter.GET("/", ec.Fetch)
 	PostulacionEstadoRouter.GET("/:id", ec.FetchById)
