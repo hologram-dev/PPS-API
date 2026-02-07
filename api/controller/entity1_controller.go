@@ -2,7 +2,6 @@ package controller
 
 import (
 	"net/http"
-	"strconv"
 
 	"gorm-template/domain"
 
@@ -89,11 +88,13 @@ func (te *Entity1Controller) Update(c *gin.Context) {
 }
 
 func (te *Entity1Controller) Delete(c *gin.Context) {
-	Entity1ID, err := strconv.Atoi(c.Param("id"))
+	idParam := c.Param("id")
+
+	id, err := uuid.Parse(idParam)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, domain.ErrorResponse{Message: err.Error()})
 	}
-	err = te.Entity1Repository.Delete(c, Entity1ID)
+	err = te.Entity1Repository.Delete(c, id)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, domain.ErrorResponse{Message: err.Error()})
 	}
