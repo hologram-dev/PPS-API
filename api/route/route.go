@@ -17,4 +17,9 @@ func Setup(env *bootstrap.Env, timeout time.Duration, gin *gin.Engine) {
 	PostulacionRouter(env, timeout, publicRouter)
 	ProyectoPuestoRouter(env, timeout, publicRouter)
 	PuestoRouter(env, timeout, publicRouter)
+	ProyectoRouter(env, timeout, publicRouter)
+	EstudianteRouter(env, timeout, publicRouter)
+	EstudianteCarreraRouter(env, timeout, publicRouter)
+	PlanEstudiosRouter(env, timeout, publicRouter)
+	RepresentanteCarreraRouter(env, timeout, publicRouter)
 }
