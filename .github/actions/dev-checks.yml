@@ -1,0 +1,61 @@
+name: Dev Checks
+
+on:
+  push:
+    branches:
+      - 'feature/**'
+      - 'fix/**'
+    branches-ignore:
+      - 'develop'
+      - 'main'
+
+jobs:
+  quick-checks:
+    name: Quick Build, Test & Lint
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.24'
+          cache: true
+
+      - name: Verify Dependencies
+        run: go mod verify
+
+      - name: Build
+        run: go build -v ./...
+
+      - name: Run Tests
+        run: go test -v -race ./... 
+
+      - name: Run Go Lint
+        uses: golangci/golangci-lint-action@v6
+        with:
+          version: latest
+      
+      - name: Run Gosec (Security Scan)
+        uses: securego/gosec@master
+        with:
+          args: ./...
+
+  notify-discord:
+    name: Notify Discord
+    runs-on: ubuntu-latest
+    needs: quick-checks
+    if: always() 
+    steps:
+      - name: Send Discord notification
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK_DEV }}
+        uses: Ilshidur/action-discord@master
+        with:
+          args: |
+            ${{ (needs.quick-checks.result == 'success' && '**Checks de Feature aprobados**') || '**Fallo en Checks de Feature**' }}
+            **Repo:** `${{ github.repository }}`
+            **Branch:** `${{ github.ref_name }}`
+            **Author:** `${{ github.actor }}`
+            [Ver logs detallados](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})

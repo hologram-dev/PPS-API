@@ -1,38 +1,38 @@
-# Stage 1: Build the Go Application
+# Stage 1: Build (Compilación)
 FROM golang:1.24-alpine AS builder
 
-## Set the working directory inside the container
+# Instalamos dependencias necesarias para compilar (certificados y tzdata)
+RUN apk add --no-cache git ca-certificates tzdata
+
 WORKDIR /app
 
-## Copy go.mod and go.sum to download dependencies
+# Aprovechamos el cache de capas de Docker para las dependencias
 COPY go.mod go.sum ./
 RUN go mod download
 
-## Copy the rest of the application source code
+# Copiamos el código fuente y las migraciones
 COPY . .
 
-## Build the Go Application
-### CGO_ENABLED = 0 ensures a statically linked binary
-### -ldflags="-s -w" removes debug information and symbol tables for smaller size
-RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -ldflags="-s -w" -o app ./cmd
+# Compilamos el binario
+# - CGO_ENABLED=0 para que sea estático (clave para Alpine y ARM)
+# - ldflags "-s -w" para reducir el peso eliminando debug info
+RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-s -w" -o app ./cmd/api/main.go
 
-# Stage 2: Create the final lean image
+# Stage 2: Final (Imagen ligera de producción)
 FROM alpine:latest
 
-## Add SSL certificates for HTTPS requests (optional but recommended)
-RUN apk --no-cache add ca-certificates
+# Añadimos certificados (HTTPS) y zona horaria (para logs en hora local)
+RUN apk --no-cache add ca-certificates tzdata
 
-## Set the working directory
 WORKDIR /root/
 
-RUN mkdir -p /root/cmd
-
-## Copy the built executable from the builder stage
-COPY --from=builder /app/app ./cmd/
+# Copiamos el binario y la carpeta de migraciones desde el builder
+COPY --from=builder /app/app .
 COPY --from=builder /app/migrations ./migrations
 
-## Expose the port your application listens on
-EXPOSE 8080
+# Usamos una variable de entorno con valor por defecto
+ENV PORT=8080
+EXPOSE ${PORT}
 
-## Command to run the application
-CMD [ "./cmd/app" ]
+# Ejecutamos el binario directamente
+CMD [ "./app" ]
