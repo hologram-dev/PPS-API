@@ -16,4 +16,5 @@ func Setup(env *bootstrap.Env, timeout time.Duration, gin *gin.Engine) {
 	ContratoRouter(env, timeout, publicRouter)
 	PostulacionRouter(env, timeout, publicRouter)
 	ProyectoPuestoRouter(env, timeout, publicRouter)
+	PuestoRouter(env, timeout, publicRouter)
 }
