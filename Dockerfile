@@ -16,7 +16,7 @@ COPY . .
 # Compilamos el binario
 # - CGO_ENABLED=0 para que sea estático (clave para Alpine y ARM)
 # - ldflags "-s -w" para reducir el peso eliminando debug info
-RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-s -w" -o app ./cmd/api/main.go
+RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-s -w" -o app ./cmd/main.go
 
 # Stage 2: Final (Imagen ligera de producción)
 FROM alpine:latest
