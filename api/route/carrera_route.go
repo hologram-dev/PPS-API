@@ -6,8 +6,6 @@ import (
 	"gorm-template/pkg/usecase"
 	"time"
 
-	//	"gorm-template/api/controller"
-
 	"github.com/gin-gonic/gin"
 )
 
@@ -15,7 +13,7 @@ func CarreraRouter(env *bootstrap.Env, timeout time.Duration, group *gin.RouterG
 	ec := &controller.CarreraController{
 		CarreraRepository: &usecase.CarreraUseCase{},
 	}
-	CarreraRouter := group.Group("/Carrera")
+	CarreraRouter := group.Group("/carrera")
 	CarreraRouter.POST("/", ec.Create)
 	CarreraRouter.GET("/", ec.Fetch)
 	CarreraRouter.GET("/:id", ec.FetchById)

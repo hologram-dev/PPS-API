@@ -23,7 +23,7 @@ func (cc *CarreraController) Create(c *gin.Context) {
 	}
 
 	if Carrera.Nombre == "" {
-		c.JSON(http.StatusBadRequest, domain.ErrorResponse{Message: "Name is required"})
+		c.JSON(http.StatusBadRequest, domain.ErrorResponse{Message: "Nombre es requerido"})
 		return
 	}
 
