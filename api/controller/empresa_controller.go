@@ -2,7 +2,6 @@ package controller
 
 import (
 	"net/http"
-	"strconv"
 
 	"gorm-template/domain"
 
@@ -33,7 +32,7 @@ func (te *EmpresaController) Create(c *gin.Context) { //Hay que ingresar todos l
 	if Empresa.CodPostalEmpresa == "" {
 		c.JSON(http.StatusBadRequest, domain.ErrorResponse{Message: "CodPostalEmpresa is required"})
 		return
-	}	
+	}
 
 	if Empresa.CuitEmpresa == "" {
 		c.JSON(http.StatusBadRequest, domain.ErrorResponse{Message: "CuitEmpresa is required"})
@@ -72,7 +71,9 @@ func (te *EmpresaController) Fetch(c *gin.Context) {
 }
 
 func (te *EmpresaController) FetchById(c *gin.Context) {
-	id, err := strconv.Atoi(c.Param("id"))
+	idParam := c.Param("id")
+
+	id, err := uuid.Parse(idParam)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, domain.ErrorResponse{Message: err.Error()})
 		return
@@ -107,11 +108,13 @@ func (te *EmpresaController) Update(c *gin.Context) {
 }
 
 func (te *EmpresaController) Delete(c *gin.Context) {
-	EmpresaID, err := strconv.Atoi(c.Param("id"))
+	idParam := c.Param("id")
+
+	id, err := uuid.Parse(idParam)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, domain.ErrorResponse{Message: err.Error()})
 	}
-	err = te.EmpresaRepository.Delete(c, EmpresaID)
+	err = te.EmpresaRepository.Delete(c, id)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, domain.ErrorResponse{Message: err.Error()})
 	}
