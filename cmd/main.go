@@ -1,6 +1,8 @@
 package main
 
 import (
+	"log"
+
 	"gorm-template/bootstrap"
 	"time"
 
@@ -16,9 +18,9 @@ func main() {
 
 	timeout := time.Duration(env.ContextTimeout) * time.Second
 
-	gin := gin.Default()
-	gin.Use(cors.Default())
+	router := gin.Default()
+	router.Use(cors.Default())
 
-	route.Setup(env, timeout, gin)
-	gin.Run(env.ServerAddress)
+	route.Setup(env, timeout, router)
+	log.Fatal(router.Run(env.ServerAddress))
 }

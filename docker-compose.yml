@@ -1,7 +1,7 @@
 services:
   db:
     image: mariadb:latest
-    container_name: utn_mariadb
+    container_name: pps_mariadb
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
@@ -14,8 +14,6 @@ services:
       - mariadb_data:/var/lib/mysql
     healthcheck:
       test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
-      # O una versión más simple si la anterior falla:
-      # test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-p${DB_ROOT_PASSWORD}"]
       interval: 10s
       timeout: 5s
       retries: 5
