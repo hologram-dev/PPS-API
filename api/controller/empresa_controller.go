@@ -13,7 +13,7 @@ type EmpresaController struct {
 	EmpresaRepository domain.EmpresaRepository
 }
 
-func (te *EmpresaController) Create(c *gin.Context) { //Hay que ingresar todos los datos necesarios para crear
+func (te *EmpresaController) Create(c *gin.Context) {
 	var Empresa domain.Empresa
 
 	err := c.ShouldBind(&Empresa)
