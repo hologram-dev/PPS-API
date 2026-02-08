@@ -5,6 +5,8 @@ import (
 
 	"gorm-template/bootstrap"
 	"gorm-template/domain"
+
+	"github.com/google/uuid"
 )
 
 type EmpresaUseCase struct{}
@@ -28,7 +30,7 @@ func (eu *EmpresaUseCase) Fetch(c context.Context) ([]domain.Empresa, error) {
 	return entity, nil
 }
 
-func (eu *EmpresaUseCase) FetchById(c context.Context, id int) (domain.Empresa, error) {
+func (eu *EmpresaUseCase) FetchById(c context.Context, id uuid.UUID) (domain.Empresa, error) {
 	db := bootstrap.DB
 	empresa := domain.Empresa{}
 	err := db.Where("id = ?", id).First(&empresa)
@@ -48,7 +50,7 @@ func (eu *EmpresaUseCase) Update(c context.Context, updatedEmpresa domain.Empres
 	return nil
 }
 
-func (eu *EmpresaUseCase) Delete(c context.Context, id int) error {
+func (eu *EmpresaUseCase) Delete(c context.Context, id uuid.UUID) error {
 	db := bootstrap.DB
 	err := db.Where("id = ?", id).Delete(&domain.Empresa{})
 	if err.Error != nil {

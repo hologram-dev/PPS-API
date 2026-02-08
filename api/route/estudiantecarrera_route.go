@@ -6,8 +6,6 @@ import (
 	"gorm-template/pkg/usecase"
 	"time"
 
-	//	"gorm-template/api/controller"
-
 	"github.com/gin-gonic/gin"
 )
 

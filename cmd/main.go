@@ -18,9 +18,9 @@ func main() {
 
 	timeout := time.Duration(env.ContextTimeout) * time.Second
 
-	router := gin.Default()
-	router.Use(cors.Default())
+	gin := gin.Default()
+	gin.Use(cors.Default())
 
-	route.Setup(env, timeout, router)
-	log.Fatal(router.Run(env.ServerAddress))
+	route.Setup(env, timeout, gin)
+	log.Fatal(gin.Run(env.ServerAddress)) //Esto puede ser borrable, habria que testear
 }
