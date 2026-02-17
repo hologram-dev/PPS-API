@@ -13,7 +13,7 @@ func MateriaRouter(env *bootstrap.Env, timeout time.Duration, group *gin.RouterG
 	ec := &controller.MateriaController{
 		MateriaRepository: &usecase.MateriaUseCase{},
 	}
-	MateriaRouter := group.Group("/entity1")
+	MateriaRouter := group.Group("/materia")
 	MateriaRouter.POST("/", ec.Create)
 	MateriaRouter.GET("/", ec.Fetch)
 	MateriaRouter.GET("/:id", ec.FetchById)
