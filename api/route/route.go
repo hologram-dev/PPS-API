@@ -27,4 +27,5 @@ func Setup(env *bootstrap.Env, timeout time.Duration, gin *gin.Engine) {
 	RepresentanteEmpresaRouter(env, timeout, publicRouter)
 	ProcesoSeleccionPostulacionRouter(env, timeout, publicRouter)
 	ProcesoSeleccionEstadoRouter(env, timeout, publicRouter)
+	MateriaRouter(env, timeout, publicRouter)
 }
